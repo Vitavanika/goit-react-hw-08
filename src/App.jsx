@@ -4,9 +4,9 @@ import ContactForm from './components/ContactForm/ContactForm';
 import ContactList from './components/ContactList/ContactList';
 import SearchBox from './components/SearchBox/SearchBox';
 import styles from './App.module.css';
-import { selectContacts as selectAllContacts } from './redux/contactsSlice';
-import { selectNameFilter as selectCurrentNameFilter } from './redux/filtersSlice';
-import { fetchContacts } from './redux/contactsOps';
+import { selectContacts as selectAllContacts } from './redux/contacts/slice';
+import { selectNameFilter as selectCurrentNameFilter } from './redux/filters/slice';
+import { fetchContacts } from './redux/contacts/operations';
 
 function App() {
   const dispatch = useDispatch();
