@@ -12,13 +12,16 @@ const contactSchema = Yup.object().shape({
   number: Yup.string()
     .min(3, 'Number must be at least 3 characters')
     .max(50, 'Number must be at most 50 characters')
-    .matches(/^[0-9\-+() ]+$/, "Number can only contain digits, spaces, dashes, parentheses and plus")
+    .matches(
+      /^[0-9\-+() ]+$/,
+      'Number can only contain digits, spaces, dashes, parentheses and plus'
+    )
     .required('Number is required'),
 });
 
 export default function ContactForm() {
   const dispatch = useDispatch();
-  
+
   const handleSubmit = (values, { resetForm }) => {
     dispatch(addContact(values));
     resetForm();

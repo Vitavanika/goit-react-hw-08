@@ -1,50 +1,58 @@
-import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
-import ContactForm from './components/ContactForm/ContactForm';
-import ContactList from './components/ContactList/ContactList';
-import SearchBox from './components/SearchBox/SearchBox';
-import styles from './App.module.css';
-import { selectContacts as selectAllContacts } from './redux/contacts/slice';
-import { selectNameFilter as selectCurrentNameFilter } from './redux/filters/slice';
-import { fetchContacts } from './redux/contacts/operations';
+import { useDispatch, useSelector } from 'react-redux';
+import { refreshUser } from './redux/auth/operations';
+import { selectIsRefreshing } from './redux/auth/selectors';
+import { Routes, Route } from 'react-router-dom';
 
-function App() {
+import Layout from './components/Layout/Layout';
+import HomePage from './pages/HomePage/HomePage';
+import RegistrationPage from './pages/RegistrationPage/RegistrationPage';
+import LoginPage from './pages/LoginPage/LoginPage';
+import ContactsPage from './pages/ContactsPage/ContactsPage';
+import PrivateRoute from './components/PrivateRoute';
+import RestrictedRoute from './components/RestrictedRoute';
+
+export default function App() {
   const dispatch = useDispatch();
-  const contacts = useSelector(selectAllContacts);
-  const filter = useSelector(selectCurrentNameFilter);
+  const isRefreshing = useSelector(selectIsRefreshing);
+  const token = useSelector((state) => state.auth.token);
 
   useEffect(() => {
-    dispatch(fetchContacts());
-  }, [dispatch]);
+    if (token) {
+      dispatch(refreshUser());
+    }
+  }, [dispatch, token]);
 
-  const getVisibleContactsCount = () => {
-    const normalizedFilter = filter.toLowerCase();
-    return contacts.filter((contact) =>
-      contact.name.toLowerCase().includes(normalizedFilter)
-    ).length;
-  };
-
-  const visibleContactsCount = getVisibleContactsCount();
+  if (isRefreshing) {
+    return <b>Loading...</b>;
+  }
 
   return (
-    <div className={styles.container}>
-      <h1 className={styles.title}>Phonebook</h1>
-      <ContactForm />
-      <SearchBox />
-      {contacts.length > 0 ? (
-        <ContactList />
-      ) : (
-        <p className={styles.message}>
-          You don't have any contacts yet. Add your first one!
-        </p>
-      )}
-      {contacts.length > 0 && visibleContactsCount === 0 && filter && (
-        <p className={styles.message}>
-          No contacts found matching your search.
-        </p>
-      )}
-    </div>
+    <Routes>
+      <Route path='/' element={<Layout />}>
+        <Route index element={<HomePage />} />
+        <Route
+          path='/register'
+          element={
+            <RestrictedRoute
+              redirectTo='/contacts'
+              component={<RegistrationPage />}
+            />
+          }
+        />
+        <Route
+          path='/login'
+          element={
+            <RestrictedRoute redirectTo='/contacts' component={<LoginPage />} />
+          }
+        />
+        <Route
+          path='/contacts'
+          element={
+            <PrivateRoute redirectTo='/login' component={<ContactsPage />} />
+          }
+        />
+      </Route>
+    </Routes>
   );
 }
-
-export default App;
