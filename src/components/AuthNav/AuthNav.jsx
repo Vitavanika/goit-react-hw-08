@@ -1,12 +1,15 @@
+import { Button } from '@mui/material';
 import { NavLink } from 'react-router-dom';
 
 const AuthNav = () => {
   return (
-    <nav style={{ display: 'inline-block' }}>
-      <NavLink to='/register' style={{ marginRight: 10 }}>
+    <nav>
+      <Button component={NavLink} to='/register' color='inherit'>
         Register
-      </NavLink>
-      <NavLink to='/login'>Log In</NavLink>
+      </Button>
+      <Button component={NavLink} to='/login' color='inherit'>
+        Log In
+      </Button>
     </nav>
   );
 };

@@ -1,18 +1,23 @@
+import { Button, Typography, Box } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectUser } from '../../redux/auth/selectors';
 import { logout } from '../../redux/auth/operations';
+import { selectUser } from '../../redux/auth/selectors';
 
 const UserMenu = () => {
   const dispatch = useDispatch();
   const { name } = useSelector(selectUser);
 
   return (
-    <div style={{ display: 'inline-block', marginLeft: 20 }}>
-      <span style={{ marginRight: 10 }}>Welcome, {name}</span>
-      <button type="button" onClick={() => dispatch(logout())}>
+    <Box display='flex' alignItems='center' gap={2}>
+      <Typography variant='subtitle1'>Welcome, {name}</Typography>
+      <Button
+        variant='outlined'
+        color='inherit'
+        onClick={() => dispatch(logout())}
+      >
         Log Out
-      </button>
-    </div>
+      </Button>
+    </Box>
   );
 };
 
