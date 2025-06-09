@@ -37,8 +37,8 @@ export default function Contact({ id, name, number }) {
           </p>
         </div>
         <Button
-          variant="outlined"
-          color="error"
+          variant='outlined'
+          color='error'
           onClick={() => setOpen(true)}
           className={styles.button}
         >
@@ -49,20 +49,20 @@ export default function Contact({ id, name, number }) {
       <Dialog
         open={open}
         onClose={handleCancel}
-        aria-labelledby="confirm-dialog-title"
-        aria-describedby="confirm-dialog-description"
+        aria-labelledby='confirm-dialog-title'
+        aria-describedby='confirm-dialog-description'
       >
-        <DialogTitle id="confirm-dialog-title">Delete Contact</DialogTitle>
+        <DialogTitle id='confirm-dialog-title'>Delete Contact</DialogTitle>
         <DialogContent>
-          <DialogContentText id="confirm-dialog-description">
+          <DialogContentText id='confirm-dialog-description'>
             Are you sure you want to delete contact "{name}"?
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCancel} color="primary">
+          <Button onClick={handleCancel} color='primary'>
             Cancel
           </Button>
-          <Button onClick={handleConfirmDelete} color="error" autoFocus>
+          <Button onClick={handleConfirmDelete} color='error' autoFocus>
             Delete
           </Button>
         </DialogActions>
